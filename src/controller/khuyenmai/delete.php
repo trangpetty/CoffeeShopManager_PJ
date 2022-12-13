@@ -1,10 +1,10 @@
 <?php
     include '../../configuration/connect.php';
     extract($_POST);
-    if(isset($_POST['maban_delete'])){
-        $unique = $_POST['maban_delete'];
+    if(isset($_POST['makm_delete'])){
+        $unique = $_POST['makm_delete'];
         echo $unique;
-        $sql = "DELETE FROM `ban` WHERE MABAN='$unique'";
+        $sql = "DELETE FROM `khuyenmai` WHERE MAKM='$unique'";
         $result = mysqli_query($con,$sql);
     }
 ?>

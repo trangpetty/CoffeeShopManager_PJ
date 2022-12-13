@@ -1,36 +1,57 @@
 <?php
     include '../../configuration/connect.php';
     extract($_GET);
-    if(isset($_GET['ban'])){
+    if(isset($_GET['nhanvien'])){
         $table = '
             <table class="table mx-auto" id="ban-table">
               <thead class="table-dark">
                 <tr>
-                    <td>Ma ban</td>
-                    <td>Khu vuc</td>
-                    <td>Phu thu</td>
+                    <td>Ma NV</td>
+                    <td>Ho ten NV</td>
+                    <td>Gioi tinh</td>
+                    <td>Chuc vu</td>
+                    <td>Luong ca</td>
                     <td>Actions</td>
                 </tr>
               </thead>
         ';
-        $sql = "SELECT * FROM `ban`";
+        $sql = "SELECT * FROM `nhanvien`";
         $result = mysqli_query($con,$sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            $maban = $row['MABAN'];
+            $manv = $row['MANV'];
+            if($row['GIOITINH']) $sex = 'Nam';
+            else $sex = 'Nu';
             $table .= '
                 <tr>
-                    <td>'.$row['MABAN'].'</td>
-                    <td>'.$row['KHUVUC'].'</td>
-                    <td>'.$row['PHUTHU'].'</td>
+                    <td>'.$row['MANV'].'</td>
+                    <td>'.$row['HONV'].' '.$row['TENNV'].'</td>
+                    <td>'.$sex.'</td>
+                    <td>'.$row['CHUCVU'].'</td>
+                    <td>'.$row['LUONGCA'].'</td>
                     <td>
-                        <button class="btn btn-dark btn-edit" id="'.$row['MABAN'].'"><i class="fa-regular fa-pen-to-square"></i></button>
-                        <button class="btn btn-danger btn-delete" id="'.$row['MABAN'].'""><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-info btn-detail" id="'.$row['MANV'].'"><i class="fa-solid fa-circle-info text-white"></i></button>
+                        <button class="btn btn-dark btn-edit" id="'.$row['MANV'].'"><i class="fa-regular fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger btn-delete" id="'.$row['MANV'].'""><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>
             ';
         }
         $table .= '</table>';
         echo $table;
+    }
+
+    if(isset($_GET['manv_detail'])) {
+        $manv = $_GET['manv_detail'];
+        $sql = "SELECT * FROM `nhanvien` WHERE MANV='$manv'";
+        $result = mysqli_query($con,$sql);
+        $response = array();
+        while($row = mysqli_fetch_assoc($result)){
+            $response = $row;
+        }
+        echo json_encode($response);
+    } else {
+        $response['status'] = 200;
+        $response['message'] = 'Invalid or data not found';
     }
 ?>
 

@@ -4,21 +4,21 @@
     include 'edit.php';
 ?>
     <div class="container">
-        <h1 class="text-center">BAN</h1>
+        <h1 class="text-center">sochamcong</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ban-modal_add">
+            <button id="sochamcong-btn_modaladd" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#sochamcong-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
             <div class="d-flex">
-                <input type="text" class="form-control" id="ban-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="btn-search_input"><i class="fa fa-search"></i></button>
+                <input type="text" class="form-control" id="sochamcong-search_input" autocomplete="off" placeholder="Search">
+                <button class="btn btn-dark" id="sochamcong-btn_search"><i class="fa fa-search"></i></button>
             </div>
         </div>
-        <div id="ban-search_result">
+        <div id="sochamcong-search_result">
 
         </div>
-        <div id="showDataTable">
+        <div id="sochamcong-table_show">
 
         </div>
     </div>
@@ -27,113 +27,137 @@
     <script>
         $(document).ready(function (){
             showData();
-            $('#btn-search_input').click(function (){
-                var search_input = $('#ban-search_input').val();
+            $('#sochamcong-btn_search').click(function (){
+                let search_input = $('#sochamcong-search_input').val();
                 if(search_input != ""){
                     $.ajax({
-                        url: '../../controller/ban/search.php',
+                        url: '../../controller/sochamcong/search.php',
                         method: 'POST',
                         data: {search_input: search_input},
                         success: function (data){
-                            $('#ban-search_result').html(data);
+                            $('#sochamcong-search_result').html(data);
                         }
                     })
                 } else {
-                    $('#ban-search_result').css('display','none');
+                    $('#sochamcong-search_result').css('display','none');
                 }
             })
         })
         function showData(){
             $.ajax({
-                url: "../../controller/ban/show.php",
+                url: "../../controller/sochamcong/show.php",
                 type: "get",
                 data: {
-                    ban: "true"
+                    sochamcong: "true"
                 },
                 success: function (data,status) {
-                    $('#showDataTable').html(data);
+                    $('#sochamcong-table_show').html(data);
                 }
             });
         }
-        $('#ban-btn_add').on('click', function () {
-            var maban = $('#maban_add').val();
-            var khuvuc = $('#khuvuc_add').val();
-            var phuthu = $('#phuthu_add').val();
+
+        $('#sochamcong-btn_modaladd').on('click',function (){
+            $.ajax({
+                url: "../../controller/sochamcong/show.php",
+                type: "get",
+                data: {
+                    get_manv: "true"
+                },
+                success: function (data,status) {
+                    $('#manvcc_add').html(data);
+                }
+            });
+        })
+
+        $('#sochamcong-btn_add').on('click', function () {
+            let manvcc = $('#manvcc_add').val();
+            let ngaydilam = $('#ngaydilam_add').val();
+            let calam = $('#calam_add').val();
 
             $.ajax({
-                url: "../../controller/ban/insert.php",
+                url: "../../controller/sochamcong/insert.php",
                 type: "post",
                 data: {
-                    maban: maban,
-                    khuvuc: khuvuc,
-                    phuthu: phuthu
+                    manvcc: manvcc,
+                    ngaydilam: ngaydilam,
+                    calam: calam
                 },
                 success: function (data, status){
-                    $('#ban-modal_add').modal('hide');
-                    $('#ban-form_add')[0].reset();
+                    $('#sochamcong-modal_add').modal('hide');
+                    $('#sochamcong-form_add')[0].reset();
                     showData()
                 }
             });
         });
 
         $(document).on('click','.btn-delete',function() {
-            let maban_del = $(this).attr('id');
-            let $ele = $(this).parent().parent();
+            let sochamcong_del = $(this).attr('id');
+            let group_del = sochamcong_del.split(':');
+            let manvcc_del = group_del[0];
+            let ngaydilam_del = group_del[1];
+            let calam_del = group_del[2];
             if(confirm('Are you sure about want to delete?')){
                 $.ajax({
                     type: "post",
-                    url: '../../controller/ban/delete.php',
-                    data: { maban_delete: maban_del},
+                    url: '../../controller/sochamcong/delete.php',
+                    data: {
+                        manvcc_del: manvcc_del,
+                        ngaydilam_del: ngaydilam_del,
+                        calam_del: calam_del
+                    },
                     success: function (data) {
-                        showData()
+                        showData();
                     }
                 })
             }
         })
 
         $(document).on('click','.btn-edit',function() {
-            let maban_edit = $(this).attr('id');
+            let sochamcong_edit = $(this).attr('id');
+            let group_edit = sochamcong_edit.split(':');
+            let manvcc_edit = group_edit[0];
+            let ngaydilam_edit = group_edit[1];
+            let calam_edit = group_edit[2];
             $.ajax({
                 type: "post",
-                url: '../../controller/ban/update.php',
-                data: { maban_edit: maban_edit},
+                url: '../../controller/sochamcong/update.php',
+                data: {
+                    manvcc_edit: manvcc_edit,
+                    ngaydilam_edit: ngaydilam_edit,
+                    calam_edit: calam_edit
+                },
                 success: function (data) {
-                    $.get("../../controller/ban/update.php", {maban_edit: maban_edit}, function (data,status){
-                        var ban = JSON.parse(data);
-                        $('#ban-hidden-data').val(ban.MABAN);
-                        $('#maban_edit').val(ban.MABAN);
-                        $('#khuvuc_edit').val(ban.KHUVUC);
-                        $('#phuthu_edit').val(ban.PHUTHU);
+                    $.get("../../controller/sochamcong/update.php", {
+                        manvcc_edit: manvcc_edit,
+                        ngaydilam_edit: ngaydilam_edit,
+                        calam_edit: calam_edit
+                    }, function (data,status){
+                        let sochamcong = JSON.parse(data);
+                        $('#sochamcong-hidden-data').val(sochamcong.MANV);
+                        $('#manvcc_edit').val(sochamcong.MANV);
+                        $('#ngaydilam_edit').val(sochamcong.NGAYDILAM);
+                        $('#calam_edit').val(sochamcong.CALAM);
                     });
                 }
             })
-            $('#ban-modal_edit').modal("show");
+            $('#sochamcong-modal_edit').modal("show");
         })
 
-        $(document).on('click','#ban-btn_edit',function() {
+        $(document).on('click','#sochamcong-btn_edit',function() {
             $.ajax({
                 type: "post",
-                url: '../../controller/ban/update.php',
+                url: '../../controller/sochamcong/update.php',
                 data: {
-                    maban_update: $('#maban_edit').val(),
-                    khuvuc_update: $('#khuvuc_edit').val(),
-                    phuthu_update: $('#phuthu_edit').val(),
-                    ban_hidden_data: $('#ban-hidden-data').val()
+                    manvcc_update: $('#manvcc_edit').val(),
+                    ngaydilam_update: $('#ngaydilam_edit').val(),
+                    calam_update: $('#calam_edit').val(),
+                    sochamcong_hidden_data: $('#sochamcong-hidden-data').val()
                 },
                 success: function (data) {
-                    $('#ban-modal_edit').modal('hide');
+                    $('#sochamcong-modal_edit').modal('hide');
                     showData();
                 }
             })
-            // $.post("./../controller/ban/update.php", {
-            //     maban_update: $('#maban_edit').val(),
-            //     khuvuc_update: $('#khuvuc_edit').val(),
-            //     phuthu_update: $('#phuthu_edit').val(),
-            //     ban_hidden_data: $('#ban-hidden-data').val()
-            // },function (data, status){
-            //     $('#ban-modal_edit').modal('hide');
-            //     showData();
-            // })
         })
 
     </script>

@@ -36,6 +36,7 @@
                         data: {search_input: search_input},
                         success: function (data){
                             $('#ban-search_result').html(data);
+                            $('#showDataTable').hide();
                         }
                     })
                 } else {

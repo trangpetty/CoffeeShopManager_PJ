@@ -1,30 +1,34 @@
 <?php
     include '../../configuration/connect.php';
     extract($_GET);
-    if(isset($_GET['ban'])){
+    if(isset($_GET['sanpham'])){
         $table = '
-            <table class="table mx-auto" id="ban-table">
+            <table class="table mx-auto" id="sanpham-table">
               <thead class="table-dark">
                 <tr>
-                    <td>Ma ban</td>
-                    <td>Khu vuc</td>
-                    <td>Phu thu</td>
+                    <td>Ma san pham</td>
+                    <td>Ten san pham</td>
+                    <td>Gia</td>
+                    <td>Size</td>
+                    <td>Nhom loai</td>
                     <td>Actions</td>
                 </tr>
               </thead>
         ';
-        $sql = "SELECT * FROM `ban`";
+        $sql = "SELECT * FROM `sanpham`";
         $result = mysqli_query($con,$sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            $maban = $row['MABAN'];
+            $masp = $row['MASP'];
             $table .= '
                 <tr>
-                    <td>'.$row['MABAN'].'</td>
-                    <td>'.$row['KHUVUC'].'</td>
-                    <td>'.$row['PHUTHU'].'</td>
+                    <td>'.$row['MASP'].'</td>
+                    <td>'.$row['TENSP'].'</td>
+                    <td>'.$row['GIA'].'</td>
+                    <td>'.$row['SIZE'].'</td>
+                    <td>'.$row['NHOMLOAI'].'</td>
                     <td>
-                        <button class="btn btn-dark btn-edit" id="'.$row['MABAN'].'"><i class="fa-regular fa-pen-to-square"></i></button>
-                        <button class="btn btn-danger btn-delete" id="'.$row['MABAN'].'""><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-dark btn-edit" id="'.$row['MASP'].'"><i class="fa-regular fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger btn-delete" id="'.$row['MASP'].'""><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>
             ';

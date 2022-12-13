@@ -4,21 +4,21 @@
     include 'edit.php';
 ?>
     <div class="container">
-        <h1 class="text-center">BAN</h1>
+        <h1 class="text-center">Khuyen mai</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ban-modal_add">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#khuyenmai-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
             <div class="d-flex">
-                <input type="text" class="form-control" id="ban-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="btn-search_input"><i class="fa fa-search"></i></button>
+                <input type="text" class="form-control" id="khuyenmai-search_input" autocomplete="off" placeholder="Search">
+                <button class="btn btn-dark" id="khuyenmai-btn_search"><i class="fa fa-search"></i></button>
             </div>
         </div>
-        <div id="ban-search_result">
+        <div id="khuyenmai-search_result">
 
         </div>
-        <div id="showDataTable">
+        <div id="khuyenmai-table_show">
 
         </div>
     </div>
@@ -27,63 +27,67 @@
     <script>
         $(document).ready(function (){
             showData();
-            $('#btn-search_input').click(function (){
-                var search_input = $('#ban-search_input').val();
+            $('#khuyenmai-btn_search').click(function (){
+                var search_input = $('#khuyenmai-search_input').val();
                 if(search_input != ""){
                     $.ajax({
-                        url: '../../controller/ban/search.php',
+                        url: '../../controller/khuyenmai/search.php',
                         method: 'POST',
                         data: {search_input: search_input},
                         success: function (data){
-                            $('#ban-search_result').html(data);
+                            $('#khuyenmai-search_result').html(data);
                         }
                     })
                 } else {
-                    $('#ban-search_result').css('display','none');
+                    $('#khuyenmai-search_result').css('display','none');
                 }
             })
         })
         function showData(){
             $.ajax({
-                url: "../../controller/ban/show.php",
+                url: "../../controller/khuyenmai/show.php",
                 type: "get",
                 data: {
-                    ban: "true"
+                    khuyenmai: "true"
                 },
                 success: function (data,status) {
-                    $('#showDataTable').html(data);
+                    $('#khuyenmai-table_show').html(data);
                 }
             });
         }
-        $('#ban-btn_add').on('click', function () {
-            var maban = $('#maban_add').val();
-            var khuvuc = $('#khuvuc_add').val();
-            var phuthu = $('#phuthu_add').val();
+        $('#khuyenmai-btn_add').on('click', function () {
+            var makm = $('#makm_add').val();
+            var tenkm = $('#tenkm_add').val();
+            var tgap = $('#tgap_add').val();
+            var tgkt = $('#tgkt_add').val();
+            var giatri = $('#giatri_add').val();
 
             $.ajax({
-                url: "../../controller/ban/insert.php",
+                url: "../../controller/khuyenmai/insert.php",
                 type: "post",
                 data: {
-                    maban: maban,
-                    khuvuc: khuvuc,
-                    phuthu: phuthu
+                    makm: makm,
+                    tenkm: tenkm,
+                    tgap: tgap,
+                    tgkt: tgkt,
+                    giatri: giatri
                 },
                 success: function (data, status){
-                    $('#ban-modal_add').modal('hide');
-                    $('#ban-form_add')[0].reset();
+                    $('#khuyenmai-modal_add').modal('hide');
+                    $('#khuyenmai-form_add')[0].reset();
                     showData()
                 }
             });
         });
 
         $(document).on('click','.btn-delete',function() {
-            let maban_del = $(this).attr('id');
+            let makm_del = $(this).attr('id');
             let $ele = $(this).parent().parent();
             if(confirm('Are you sure about want to delete?')){
                 $.ajax({
                     type: "post",
-                    url: '../../controller/ban/delete.php',
-                    data: { maban_delete: maban_del},
+                    url: '../../controller/khuyenmai/delete.php',
+                    data: { makm_delete: makm_del},
                     success: function (data) {
                         showData()
                     }
@@ -92,48 +96,43 @@
         })
 
         $(document).on('click','.btn-edit',function() {
-            let maban_edit = $(this).attr('id');
+            let makm_edit = $(this).attr('id');
             $.ajax({
                 type: "post",
-                url: '../../controller/ban/update.php',
-                data: { maban_edit: maban_edit},
+                url: '../../controller/khuyenmai/update.php',
+                data: { makm_edit: makm_edit},
                 success: function (data) {
-                    $.get("../../controller/ban/update.php", {maban_edit: maban_edit}, function (data,status){
-                        var ban = JSON.parse(data);
-                        $('#ban-hidden-data').val(ban.MABAN);
-                        $('#maban_edit').val(ban.MABAN);
-                        $('#khuvuc_edit').val(ban.KHUVUC);
-                        $('#phuthu_edit').val(ban.PHUTHU);
+                    $.get("../../controller/khuyenmai/update.php", {makm_edit: makm_edit}, function (data,status){
+                        let khuyenmai = JSON.parse(data);
+                        $('#khuyenmai-hidden-data').val(khuyenmai.MAKM);
+                        $('#makm_edit').val(khuyenmai.MAKM);
+                        $('#tenkm_edit').val(khuyenmai.TENKM);
+                        $('#tgap_edit').val(khuyenmai.TGAPDUNG);
+                        $('#tgkt_edit').val(khuyenmai.TGKETTHUC);
+                        $('#giatri_edit').val(khuyenmai.GIATRI);
                     });
                 }
             })
-            $('#ban-modal_edit').modal("show");
+            $('#khuyenmai-modal_edit').modal("show");
         })
 
-        $(document).on('click','#ban-btn_edit',function() {
+        $(document).on('click','#khuyenmai-btn_edit',function() {
             $.ajax({
                 type: "post",
-                url: '../../controller/ban/update.php',
+                url: '../../controller/khuyenmai/update.php',
                 data: {
-                    maban_update: $('#maban_edit').val(),
-                    khuvuc_update: $('#khuvuc_edit').val(),
-                    phuthu_update: $('#phuthu_edit').val(),
-                    ban_hidden_data: $('#ban-hidden-data').val()
+                    makm_update: $('#makm_edit').val(),
+                    tenkm_update: $('#tenkm_edit').val(),
+                    tgap_update: $('#tgap_edit').val(),
+                    tgkt_update: $('#tgkt_edit').val(),
+                    giatri_update: $('#giatri_edit').val(),
+                    khuyenmai_hidden_data: $('#khuyenmai-hidden-data').val()
                 },
                 success: function (data) {
-                    $('#ban-modal_edit').modal('hide');
+                    $('#khuyenmai-modal_edit').modal('hide');
                     showData();
                 }
             })
-            // $.post("./../controller/ban/update.php", {
-            //     maban_update: $('#maban_edit').val(),
-            //     khuvuc_update: $('#khuvuc_edit').val(),
-            //     phuthu_update: $('#phuthu_edit').val(),
-            //     ban_hidden_data: $('#ban-hidden-data').val()
-            // },function (data, status){
-            //     $('#ban-modal_edit').modal('hide');
-            //     showData();
-            // })
         })
 
     </script>

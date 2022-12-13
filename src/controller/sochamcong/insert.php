@@ -1,8 +1,8 @@
 <?php
     include '../../configuration/connect.php';
     extract($_POST);
-    if(isset($_POST['maban']) && isset($_POST['khuvuc']) && isset($_POST['phuthu'])) {
-        $sql = "INSERT INTO `ban` (MABAN,KHUVUC,PHUTHU) VALUES('$maban','$khuvuc','$phuthu')";
+    if(isset($_POST['manvcc']) && isset($_POST['ngaydilam']) && isset($_POST['calam'])) {
+        $sql = "INSERT INTO `sochamcong` VALUES('$manvcc','$ngaydilam','$calam')";
         $result = mysqli_query($con, $sql);
     }
 ?>

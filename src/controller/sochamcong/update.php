@@ -1,9 +1,12 @@
 <?php
     include '../../configuration/connect.php';
     extract($_GET);
-    if(isset($_GET['maban_edit'])) {
-        $maban = $_GET['maban_edit'];
-        $sql = "SELECT * FROM `ban` WHERE MABAN='$maban'";
+    if(isset($_GET['manvcc_edit']) && isset($_GET['ngaydilam_edit']) && isset($_GET['calam_edit'])) {
+        $manvcc_edit = $_GET['manvcc_edit'];
+        $ngaydilam_edit = $_GET['ngaydilam_edit'];
+        $calam_edit = $_GET['calam_edit'];
+
+        $sql = "SELECT * FROM `sochamcong` WHERE MANV='$manvcc_edit' AND NGAYDILAM='$ngaydilam_edit' AND CALAM='$calam_edit'";
         $result = mysqli_query($con,$sql);
         $response = array();
         while($row = mysqli_fetch_assoc($result)){
@@ -15,12 +18,12 @@
         $response['message'] = 'Invalidd or data not found';
     }
 
-    if(isset($_POST['ban_hidden_data'])){
-        $maban_update = $_POST['ban_hidden_data'];
-        $khuvuc_update= $_POST['khuvuc_update'];
-        $phuthu_update= $_POST['phuthu_update'];
+    if(isset($_POST['sochamcong_hidden_data'])){
+        $manvcc_update = $_POST['sochamcong_hidden_data '];
+        $ngaydilam_update= $_POST['ngaydilam_update'];
+        $calam_update= $_POST['calam_update'];
 
-        $sql = "UPDATE `ban` SET KHUVUC='$khuvuc_update', PHUTHU='$phuthu_update' WHERE MABAN='$maban_update'";
+        $sql = "UPDATE `sochamcong` SET MANV='$manvcc_update', NGAYDILAM='$ngaydilam_update',CALAM='$calam_update' WHERE MANV='$manvcc_edit' AND NGAYDILAM='$ngaydilam_edit' AND CALAM='$calam_edit'";
         $result = mysqli_query($con,$sql);
     }
 ?>
