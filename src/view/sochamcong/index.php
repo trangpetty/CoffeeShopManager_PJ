@@ -4,15 +4,15 @@
     include 'edit.php';
 ?>
     <div class="container">
-        <h1 class="text-center">sochamcong</h1>
+        <h1 class="text-center text-brown">sochamcong</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button id="sochamcong-btn_modaladd" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#sochamcong-modal_add">
+            <button id="sochamcong-btn_modaladd" type="button" class=" bg-brown btn btn-dark" data-bs-toggle="modal" data-bs-target="#sochamcong-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
             <div class="d-flex">
                 <input type="text" class="form-control" id="sochamcong-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="sochamcong-btn_search"><i class="fa fa-search"></i></button>
+                <button class="bg-brown btn btn-dark" id="sochamcong-btn_search"><i class="fa fa-search"></i></button>
             </div>
         </div>
         <div id="sochamcong-search_result">
@@ -27,6 +27,8 @@
     <script>
         $(document).ready(function (){
             showData();
+            var manvcc_edit, ngaydilam_edit, calam_edit;
+
             $('#sochamcong-btn_search').click(function (){
                 let search_input = $('#sochamcong-search_input').val();
                 if(search_input != ""){
@@ -41,6 +43,58 @@
                 } else {
                     $('#sochamcong-search_result').css('display','none');
                 }
+            })
+
+            $(document).on('click','.btn-edit',function() {
+                let sochamcong_edit = $(this).attr('id');
+                let group_edit = sochamcong_edit.split(':');
+                manvcc_edit = group_edit[0];
+                ngaydilam_edit = group_edit[1];
+                calam_edit = group_edit[2];
+                $.ajax({
+                    type: "post",
+                    url: '../../controller/sochamcong/update.php',
+                    data: {
+                        manvcc_edit: manvcc_edit,
+                        ngaydilam_edit: ngaydilam_edit,
+                        calam_edit: calam_edit
+                    },
+                    success: function (data) {
+                        $.get("../../controller/sochamcong/update.php", {
+                            manvcc_edit: manvcc_edit,
+                            ngaydilam_edit: ngaydilam_edit,
+                            calam_edit: calam_edit
+                        }, function (data,status){
+                            let sochamcong = JSON.parse(data);
+                            $('#sochamcong-hidden-data').val(sochamcong.MANV);
+                            $('#manvcc_edit').val(sochamcong.MANV);
+                            $('#ngaydilam_edit').val(sochamcong.NGAYDILAM);
+                            $('#calam_edit').val(sochamcong.CALAM);
+                        });
+                        $('#sochamcong-modal_edit').modal('show')
+                    }
+                })
+                $(document).on('click','#sochamcong-btn_edit', function (){
+                    console.log(manvcc_edit + ngaydilam_edit + calam_edit)
+                    console.log($('#manvcc_edit').val())
+                    $.ajax({
+                        type: "post",
+                        url: '../../controller/sochamcong/update.php',
+                        data: {
+                            get_manvcc: manvcc_edit,
+                            get_ngaydilam: ngaydilam_edit,
+                            get_calam: calam_edit,
+                            manvcc_update: $('#manvcc_edit').val(),
+                            ngaydilam_update: $('#ngaydilam_edit').val(),
+                            calam_update: $('#calam_edit').val(),
+                            sochamcong_hidden_data: $('#sochamcong-hidden-data').val()
+                        },
+                        success: function () {
+                            $('#sochamcong-modal_edit').modal('hide');
+                            showData();
+                        }
+                    })
+                })
             })
         })
         function showData(){
@@ -112,53 +166,6 @@
             }
         })
 
-        $(document).on('click','.btn-edit',function() {
-            let sochamcong_edit = $(this).attr('id');
-            let group_edit = sochamcong_edit.split(':');
-            let manvcc_edit = group_edit[0];
-            let ngaydilam_edit = group_edit[1];
-            let calam_edit = group_edit[2];
-            $.ajax({
-                type: "post",
-                url: '../../controller/sochamcong/update.php',
-                data: {
-                    manvcc_edit: manvcc_edit,
-                    ngaydilam_edit: ngaydilam_edit,
-                    calam_edit: calam_edit
-                },
-                success: function (data) {
-                    $.get("../../controller/sochamcong/update.php", {
-                        manvcc_edit: manvcc_edit,
-                        ngaydilam_edit: ngaydilam_edit,
-                        calam_edit: calam_edit
-                    }, function (data,status){
-                        let sochamcong = JSON.parse(data);
-                        $('#sochamcong-hidden-data').val(sochamcong.MANV);
-                        $('#manvcc_edit').val(sochamcong.MANV);
-                        $('#ngaydilam_edit').val(sochamcong.NGAYDILAM);
-                        $('#calam_edit').val(sochamcong.CALAM);
-                    });
-                }
-            })
-            $('#sochamcong-modal_edit').modal("show");
-        })
-
-        $(document).on('click','#sochamcong-btn_edit',function() {
-            $.ajax({
-                type: "post",
-                url: '../../controller/sochamcong/update.php',
-                data: {
-                    manvcc_update: $('#manvcc_edit').val(),
-                    ngaydilam_update: $('#ngaydilam_edit').val(),
-                    calam_update: $('#calam_edit').val(),
-                    sochamcong_hidden_data: $('#sochamcong-hidden-data').val()
-                },
-                success: function (data) {
-                    $('#sochamcong-modal_edit').modal('hide');
-                    showData();
-                }
-            })
-        })
 
     </script>
 <?php include '../layout/footer.php'; ?>

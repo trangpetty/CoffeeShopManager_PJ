@@ -47,7 +47,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-dark" id="hoivien-btn_add">Add</button>
+                <button type="submit" class="btn btn-dark bg-brown" id="hoivien-btn_add">Add</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

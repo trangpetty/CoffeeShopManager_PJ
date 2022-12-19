@@ -5,15 +5,15 @@
     include "detail.php";
 ?>
     <div class="container">
-        <h1 class="text-center">NHAN VIEN</h1>
+        <h1 class="text-center text-brown">NHAN VIEN</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#nhanvien-modal_add">
+            <button type="button" class="bg-brown btn btn-dark" data-bs-toggle="modal" data-bs-target="#nhanvien-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
             <div class="d-flex">
                 <input type="text" class="form-control" id="nhanvien-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="nhanvien-btn_search"><i class="fa fa-search"></i></button>
+                <button class="bg-brown btn btn-dark" id="nhanvien-btn_search"><i class="fa fa-search"></i></button>
             </div>
         </div>
         <div id="nhanvien-search_result">

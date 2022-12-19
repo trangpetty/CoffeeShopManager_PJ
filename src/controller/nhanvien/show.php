@@ -4,7 +4,7 @@
     if(isset($_GET['nhanvien'])){
         $table = '
             <table class="table mx-auto" id="ban-table">
-              <thead class="table-dark">
+              <thead class="text-white bg-brown">
                 <tr>
                     <td>Ma NV</td>
                     <td>Ho ten NV</td>
@@ -30,7 +30,7 @@
                     <td>'.$row['LUONGCA'].'</td>
                     <td>
                         <button class="btn btn-info btn-detail" id="'.$row['MANV'].'"><i class="fa-solid fa-circle-info text-white"></i></button>
-                        <button class="btn btn-dark btn-edit" id="'.$row['MANV'].'"><i class="fa-regular fa-pen-to-square"></i></button>
+                        <button class="btn bg-brown btn-dark btn-edit" id="'.$row['MANV'].'"><i class="fa-regular fa-pen-to-square"></i></button>
                         <button class="btn btn-danger btn-delete" id="'.$row['MANV'].'""><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                 </tr>

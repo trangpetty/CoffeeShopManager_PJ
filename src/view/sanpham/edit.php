@@ -41,7 +41,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-dark" id="sanpham-btn_edit">Edit</button>
+                <button type="submit" class="btn bg-brown btn-dark" id="sanpham-btn_edit">Edit</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 <input type="hidden" id="sanpham-hidden-data">
             </div>

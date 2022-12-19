@@ -1,9 +1,8 @@
 <?php
     include '../../configuration/connect.php';
     extract($_GET);
-    if(isset($_GET['maban_edit'])) {
-        $maban = $_GET['maban_edit'];
-        $sql = "SELECT * FROM `ban` WHERE MABAN='$maban'";
+    if(isset($_GET['mahdcthd_edit']) && isset($_GET['maspcthd_edit'])) {
+        $sql = "SELECT * FROM `chitiethoadon_banhang` WHERE MAHD='$mahdcthd_edit' AND MASP='$maspcthd_edit'";
         $result = mysqli_query($con,$sql);
         $response = array();
         while($row = mysqli_fetch_assoc($result)){
@@ -15,12 +14,8 @@
         $response['message'] = 'Invalidd or data not found';
     }
 
-    if(isset($_POST['ban_hidden_data'])){
-        $maban_update = $_POST['ban_hidden_data'];
-        $khuvuc_update= $_POST['khuvuc_update'];
-        $phuthu_update= $_POST['phuthu_update'];
-
-        $sql = "UPDATE `ban` SET KHUVUC='$khuvuc_update', PHUTHU='$phuthu_update' WHERE MABAN='$maban_update'";
+    if(isset($_POST['mahdcthd_update'])){
+        $sql = "UPDATE `chitiethoadon_banhang` SET SOLUONG='$soluong_update', DONGIA='$dongia_update' WHERE MAHD='$mahdcthd_update' AND MASP='$maspcthd_update'";
         $result = mysqli_query($con,$sql);
     }
 ?>

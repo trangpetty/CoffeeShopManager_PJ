@@ -1,139 +1,139 @@
-<?php 
+<?php
+    include '../../configuration/connect.php';
+    extract($_GET);
     include '../layout/header.php';
     include 'add.php';
     include 'edit.php';
 ?>
     <div class="container">
-        <h1 class="text-center">BAN</h1>
-        <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ban-modal_add">
+        <h1 class="text-center text-brown">CHI TIET HOA DON <?php echo $_GET['id']?></h1>
+        <div class="d-flex my-2 align-items-center">
+            <a href="../hoadon/index.php" class="me-3 link text-brown btn">
+                <i class="fa-solid fa-chevron-left"></i>
+                Back
+            </a>
+            <button type="button" class="btn btn-dark text-white bg-brown" data-bs-toggle="modal" data-bs-target="#cthd-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
-            <div class="d-flex">
-                <input type="text" class="form-control" id="ban-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="btn-search_input"><i class="fa fa-search"></i></button>
-            </div>
         </div>
-        <div id="ban-search_result">
-
-        </div>
-        <div id="showDataTable">
+        <div id="cthd-table_show">
 
         </div>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function (){
-            showData();
-            $('#btn-search_input').click(function (){
-                var search_input = $('#ban-search_input').val();
-                if(search_input != ""){
-                    $.ajax({
-                        url: '../../controller/ban/search.php',
-                        method: 'POST',
-                        data: {search_input: search_input},
-                        success: function (data){
-                            $('#ban-search_result').html(data);
-                        }
-                    })
-                } else {
-                    $('#ban-search_result').css('display','none');
-                }
-            })
-        })
-        function showData(){
+            showData()
+
             $.ajax({
-                url: "../../controller/ban/show.php",
+                url: "../../controller/chitiethoadon/show.php",
                 type: "get",
                 data: {
-                    ban: "true"
+                    get_masp: "true"
                 },
                 success: function (data,status) {
-                    $('#showDataTable').html(data);
+                    $('#maspcthd_add').html(data);
+                }
+            });
+        })
+
+        function showData(){
+            $.ajax({
+                url: "../../controller/chitiethoadon/show.php",
+                type: "get",
+                data: {
+                    cthd: <?php echo $_GET['id'] ?>
+                },
+                success: function (data,status) {
+                    $('#cthd-table_show').html(data);
                 }
             });
         }
-        $('#ban-btn_add').on('click', function () {
-            var maban = $('#maban_add').val();
-            var khuvuc = $('#khuvuc_add').val();
-            var phuthu = $('#phuthu_add').val();
+
+        $('#cthd-btn_add').on('click', function () {
+            let maspcthd = $('#maspcthd_add').val();
+            let soluong = $('#soluong_add').val();
+            let dongia = $('#dongia_add').val();
 
             $.ajax({
-                url: "../../controller/ban/insert.php",
+                url: "../../controller/chitiethoadon/insert.php",
                 type: "post",
                 data: {
-                    maban: maban,
-                    khuvuc: khuvuc,
-                    phuthu: phuthu
+                    maspcthd: maspcthd,
+                    soluong: soluong,
+                    dongia: dongia,
+                    mahd: <?php echo $_GET['id']?>
                 },
                 success: function (data, status){
-                    $('#ban-modal_add').modal('hide');
-                    $('#ban-form_add')[0].reset();
+                    $('#cthd-modal_add').modal('hide');
+                    $('#cthd-form_add')[0].reset();
                     showData()
                 }
             });
         });
 
         $(document).on('click','.btn-delete',function() {
-            let maban_del = $(this).attr('id');
-            let $ele = $(this).parent().parent();
+            let maspcthd_del = $(this).attr('id');
+            console.log(maspcthd_del)
             if(confirm('Are you sure about want to delete?')){
                 $.ajax({
                     type: "post",
-                    url: '../../controller/ban/delete.php',
-                    data: { maban_delete: maban_del},
+                    url: '../../controller/chitiethoadon/delete.php',
+                    data: {
+                        mahdcthd_del: <?php echo $_GET['id']?>,
+                        maspcthd_del: maspcthd_del
+                    },
                     success: function (data) {
-                        showData()
+                        showData();
                     }
                 })
             }
         })
 
         $(document).on('click','.btn-edit',function() {
-            let maban_edit = $(this).attr('id');
-            $.ajax({
-                type: "post",
-                url: '../../controller/ban/update.php',
-                data: { maban_edit: maban_edit},
-                success: function (data) {
-                    $.get("../../controller/ban/update.php", {maban_edit: maban_edit}, function (data,status){
-                        var ban = JSON.parse(data);
-                        $('#ban-hidden-data').val(ban.MABAN);
-                        $('#maban_edit').val(ban.MABAN);
-                        $('#khuvuc_edit').val(ban.KHUVUC);
-                        $('#phuthu_edit').val(ban.PHUTHU);
-                    });
-                }
-            })
-            $('#ban-modal_edit').modal("show");
-        })
+            let maspcthd_edit = $(this).attr('id');
 
-        $(document).on('click','#ban-btn_edit',function() {
             $.ajax({
                 type: "post",
-                url: '../../controller/ban/update.php',
+                url: '../../controller/chitiethoadon/update.php',
                 data: {
-                    maban_update: $('#maban_edit').val(),
-                    khuvuc_update: $('#khuvuc_edit').val(),
-                    phuthu_update: $('#phuthu_edit').val(),
-                    ban_hidden_data: $('#ban-hidden-data').val()
+                    mahdcthd_edit: <?php echo $_GET['id']?>,
+                    maspcthd_edit: maspcthd_edit
                 },
                 success: function (data) {
-                    $('#ban-modal_edit').modal('hide');
+                    $.get("../../controller/chitiethoadon/update.php", {
+                        mahdcthd_edit: <?php echo $_GET['id']?>,
+                        maspcthd_edit: maspcthd_edit
+                    }, function (data, status) {
+                        let cthd = JSON.parse(data);
+                        $('#cthd-hidden-data').val(cthd.MASP);
+                        $('#maspcthd_edit').val(cthd.MASP);
+                        $('#soluong_edit').val(cthd.SOLUONG);
+                        $('#dongia_edit').val(cthd.DONGIA);
+                    });
+                    $('#cthd-modal_edit').modal('show')
+                }
+            })
+        })
+        $(document).on('click','#cthd-btn_edit', function (){
+            console.log($('#cthd-hidden-data').val())
+            $.ajax({
+                type: "post",
+                url: '../../controller/chitiethoadon/update.php',
+                data: {
+                    mahdcthd_update: <?php echo $_GET['id']?>,
+                    maspcthd_update: $('#cthd-hidden-data').val(),
+                    soluong_update: $('#soluong_edit').val(),
+                    dongia_update: $('#dongia_edit').val(),
+                },
+                success: function () {
+                    $('#cthd-modal_edit').modal('hide');
                     showData();
                 }
             })
-            // $.post("./../controller/ban/update.php", {
-            //     maban_update: $('#maban_edit').val(),
-            //     khuvuc_update: $('#khuvuc_edit').val(),
-            //     phuthu_update: $('#phuthu_edit').val(),
-            //     ban_hidden_data: $('#ban-hidden-data').val()
-            // },function (data, status){
-            //     $('#ban-modal_edit').modal('hide');
-            //     showData();
-            // })
         })
 
     </script>

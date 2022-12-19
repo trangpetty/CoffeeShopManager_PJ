@@ -63,7 +63,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-dark" id="nhanvien-btn_edit">Edit</button>
+                <button type="submit" class="btn btn-dark bg-brown" id="nhanvien-btn_edit">Edit</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 <input type="hidden" id="nhanvien-hidden-data">
             </div>

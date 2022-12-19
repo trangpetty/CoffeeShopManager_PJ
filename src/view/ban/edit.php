@@ -18,10 +18,14 @@
                         <label for="phuthu_edit">Phu thu</label>
                         <input type="text" name="phuthu_edit" id="phuthu_edit" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="trangthai">Phu thu</label>
+                        <input type="checkbox" name="trangthai" id="trangthai">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-dark" id="ban-btn_edit">Edit</button>
+                <button type="submit" class="btn btn-dark bg-brown" id="ban-btn_edit">Edit</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 <input type="hidden" id="ban-hidden-data">
             </div>

@@ -4,15 +4,15 @@
     include 'edit.php';
 ?>
     <div class="container">
-        <h1 class="text-center">Khuyen mai</h1>
+        <h1 class="text-center text-brown">Khuyen mai</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#khuyenmai-modal_add">
+            <button type="button" class="btn btn-dark bg-brown" data-bs-toggle="modal" data-bs-target="#khuyenmai-modal_add">
                 <i class="fas fa-circle-plus"></i>
                 Add
             </button>
             <div class="d-flex">
                 <input type="text" class="form-control" id="khuyenmai-search_input" autocomplete="off" placeholder="Search">
-                <button class="btn btn-dark" id="khuyenmai-btn_search"><i class="fa fa-search"></i></button>
+                <button class="btn btn-dark bg-brown" id="khuyenmai-btn_search"><i class="fa fa-search"></i></button>
             </div>
         </div>
         <div id="khuyenmai-search_result">

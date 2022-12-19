@@ -20,7 +20,7 @@
         $khuvuc_update= $_POST['khuvuc_update'];
         $phuthu_update= $_POST['phuthu_update'];
 
-        $sql = "UPDATE `ban` SET KHUVUC='$khuvuc_update', PHUTHU='$phuthu_update' WHERE MABAN='$maban_update'";
+        $sql = "UPDATE `ban` SET KHUVUC='$khuvuc_update', PHUTHU='$phuthu_update', TRANGTHAI='$trangthai' WHERE MABAN='$maban_update'";
         $result = mysqli_query($con,$sql);
     }
 ?>
