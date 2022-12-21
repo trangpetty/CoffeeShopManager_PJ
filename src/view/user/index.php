@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-mug-hot"></i>
             </h1>
             <div id="order-form-body" class="border-bottom">
-                <ul class="p-4">
+                <ul class="p-4" id="order-list">
                     <li class="mb-5">
                         <h4>Menu</h4>
                         <div class="row">
@@ -40,7 +40,7 @@
                         <div class="my-3" id="drink-list_all"></div>
                         <div class="my-3" id="drink-list_item"></div>
                     </li>
-                    <li>
+                    <li class="mb-5">
                         <h4>Bill</h4>
                         <div class="row my-3">
                             <div class="col">
@@ -68,6 +68,23 @@
                             <textarea class="form-control" rows="5" id="chuthich_user" name="chuthich_user"></textarea>
                         </div>
                     </li>
+
+                    <li>
+                        <h4>List Products Selected</h4>
+                        <table class="table">
+                            <thead class="bg-brown text-white">
+                                <td>Ma SP</td>
+                                <td>Ten SP</td>
+                                <td>Size</td>
+                                <td>Gia</td>
+                                <td>So luong</td>
+                                <td>Don gia</td>
+                            </thead>
+                            <tbody id="list-item_select">
+
+                            </tbody>
+                        </table>
+                    </li>
                 </ul>
                 <div id="thanhtoan" class="border-top">
                     <div class="row ps-4">
@@ -78,12 +95,12 @@
                     <div class="row ps-4">
                         <div class="col">Diem tich luy</div>
                         <div class="col"><input type="number" class="form-control border-0" value="0" id="diemtl_user" readonly></div>
-                        <div class="col">VND</div>
+                        <div class="col"></div>
                     </div>
                     <div class="row ps-4">
                         <div class="col">Giam gia</div>
                         <div class="col"><input type="number" class="form-control border-0" value="0" id="giamgia_user" readonly></div>
-                        <div class="col">VND</div>
+                        <div class="col">%</div>
                     </div>
                     <div class="row ps-4">
                         <div class="col">Tong tien</div>
@@ -98,7 +115,11 @@
         </div>
     </section>
 <script>
-
+        var list = [];
+        var html = '';
+        var tientra = 0;
+        var tongtien = 0;
+        var giamgia = 0;
         $(document).ready(function () {
             //Search san pham
             $('#order-btn_search').on('click', function (){
@@ -159,20 +180,39 @@
             })
             //Insert san pham vao chi tiet hoa don
             $(document).on('click','.btn-select',function() {
-                let masp = $(this).attr('id');
-                let soluong = $('#soluong-'+ masp).val()
-                // $.ajax({
-                //     type: "post",
-                //     url: '../../controller/user/insert.php',
-                //     data: {
-                //          masp_user: masp,
-                //          soluong_user: soluong
-                //     },
-                //     success: function (data) {
-                //
-                //     }
-                // })
-                $('#sanpham-'+masp).hide(1000);
+                let sanpham = $(this).attr('id');
+                let sanpham_item = sanpham.split('-');
+                let masp = sanpham_item[0];
+                let tensp = sanpham_item[1];
+                let size = sanpham_item[2];
+                let gia = sanpham_item[3];
+                let soluong = $('#soluong-'+ masp).val();
+                let dongia = soluong*gia;
+                let item = {
+                    masp: masp,
+                    tensp: tensp,
+                    size: size,
+                    gia: gia,
+                    soluong: soluong,
+                    dongia: dongia
+                }
+                list.push(item);
+                // let html = ``;
+                html += `
+                     <tr>
+                        <td>${masp}</td>
+                        <td>${tensp}</td>
+                        <td>${size}</td>
+                        <td>${gia}</td>
+                        <td>${soluong}</td>
+                        <td>${dongia}</td>
+                     </tr>
+                `;
+                $('#list-item_select').html(html);
+                tientra += dongia;
+                $('#tientra').val(tientra);
+                tongtien = tientra*((100-giamgia)/100);
+                $('#tongtien_user').val(tongtien);
             })
             //Lay danh sach ma nhan vien
             $.ajax({
@@ -229,21 +269,21 @@
                     },
                     success: function (data) {
                         let hoivien = JSON.parse(data);
-                        let giamgia = 0;
                         let loaihv = hoivien.LOAIHV;
                         let diemtl = hoivien.DIEMTL;
-                        if(loaihv == 'VIP1')   {giamgia = 5;}
-                        else if (loaihv == 'VIP2') {giamgia = 10;}
-                        else if (loaihv == 'VIP3') {giamgia = 15;}
+                        if(loaihv == 'VIP1')   {giamgia += 5;}
+                        else if (loaihv == 'VIP2') {giamgia += 10;}
+                        else if (loaihv == 'VIP3') {giamgia += 15;}
                         $('#diemtl_user').val(diemtl);
-                        $('#giamgia_user').val(giamgia)
+                        $('#giamgia_user').val(giamgia);
+                        tongtien = tientra*((100-giamgia)/100);
+                        $('#tongtien_user').val(tongtien);
                     }
                 });
             })
             //Lay giam gia khuyen mai
             $('#makm_user').on('change', function () {
                 let makm =  this.value;
-                let giamgia = parseInt($('#giamgia_user').val());
                 $.ajax({
                     url: "../../controller/user/show.php",
                     type: "get",
@@ -252,13 +292,19 @@
                     },
                     success: function (data) {
                         giamgia += parseInt(data);
-                        $('#giamgia_user').val(giamgia)
+                        $('#giamgia_user').val(giamgia);
+                        tongtien = tientra*((100-giamgia)/100);
+                        $('#tongtien_user').val(tongtien);
                     }
                 });
             })
+
         })
         //Insert hoa don moi
         $('#order-btn').on('click', function () {
+            for(i = 0; i < list.length; i++){
+                if(list[i].soluong == 0) list.splice(i,1);
+            }
             let manv = $('#manv_user').val();
             let sothe = $('#hv_user').val();
             let makm = $('#makm_user').val();
@@ -266,11 +312,12 @@
             let chuthich = $('#chuthich_user').val();
             if(manv != ""){
                 $.ajax({
-                    url: "../../controller/user/insert.php",
+                    url: "../../controller/hoadon/insert.php",
                     type: "post",
                     data: {
                         manv_user_insert: manv,
                         sothe_user_insert: sothe,
+                        giamgia_user_insert: giamgia,
                         makm_user_insert: makm,
                         maban_user_insert:maban,
                         chuthich_user_insert: chuthich
@@ -280,6 +327,19 @@
                         window.location.reload()
                     }
                 });
+                for(i = 0; i < list.length; i++){
+                    $.ajax({
+                        url: "../../controller/chitiethoadon/insert.php",
+                        type: "post",
+                        data: {
+                            masp_user: list[i].masp,
+                            soluong_user: list[i].soluong,
+                            dongia_user: list[i].dongia
+                        },
+                        success: function (data, status){
+                        }
+                    });
+                }
             } else $('.error').html('<i class="fa-solid fa-circle-exclamation"></i> Nhap ma nhan vien')
         });
 

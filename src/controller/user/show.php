@@ -47,7 +47,7 @@
                                 '.$row['GIA'].'
                                 <input id="soluong-'.$row['MASP'].'" type="number" min="1" class="form-control w-50 mx-auto" value="0">
                             </p>
-                            <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'">Select</button>
+                            <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'-'.$row['TENSP'].'-'.$row['SIZE'].'-'.$row['GIA'].'">Select</button>
                         </div>
                     </div>
                 </div>';
@@ -60,19 +60,23 @@
         $select_all = '';
         $sql = "SELECT DISTINCT NHOMLOAI FROM `sanpham`";
         $result = mysqli_query($con,$sql);
+        $group_nhomloai = array();
         while ($row = mysqli_fetch_assoc($result)) {
+            array_push($group_nhomloai, $row['NHOMLOAI']);
+        }
+        for($i = 0; $i < count($group_nhomloai); $i++){
             $select_all .= '
-            <div id="'.$row['NHOMLOAI'].'">
-            <h5 class="border-bottom">'.$row['NHOMLOAI'].'</h5>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div id="'.$group_nhomloai[$i].'">
+            <h5 class="border-bottom">'.$group_nhomloai[$i].'</h5>
+            <div id="carousel-'.$group_nhomloai[$i].'" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carousel-'.$group_nhomloai[$i].'" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carousel-'.$group_nhomloai[$i].'" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carousel-'.$group_nhomloai[$i].'" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
             ';
-            $sql = "SELECT * FROM `sanpham` WHERE NHOMLOAI='".$row['NHOMLOAI']."' ORDER BY SIZE DESC";
+            $sql = "SELECT * FROM `sanpham` WHERE NHOMLOAI='".$group_nhomloai[$i]."' ORDER BY SIZE DESC";
             $result = mysqli_query($con,$sql);
             while ($row = mysqli_fetch_assoc($result)) {
                 $select_all .= '
@@ -84,18 +88,18 @@
                                     '.$row['GIA'].'
                                     <input id="soluong-'.$row['MASP'].'" type="number" min="1" class="form-control w-50 mx-auto" value="0">
                                 </p>
-                                <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'">Select</button>
+                                <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'-'.$row['TENSP'].'-'.$row['SIZE'].'-'.$row['GIA'].'">Select</button>
                             </div>
                         </div>
                     </div>';
             }
             $select_all .= '
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-'.$group_nhomloai[$i].'" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-'.$group_nhomloai[$i].'" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -129,7 +133,7 @@
                                 '.$row['GIA'].'
                                 <input id="soluong-'.$row['MASP'].'" type="number" min="1" class="form-control w-50 mx-auto" value="0">
                             </p>
-                            <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'">Select</button>
+                            <button class="btn btn-dark bg-brown btn-select" id="'.$row['MASP'].'-'.$row['TENSP'].'-'.$row['SIZE'].'-'.$row['GIA'].'">Select</button>
                         </div>
                     </div>
                 </div>';
@@ -148,7 +152,8 @@
         $select_sp .= $script;
         echo $select_sp;
     }
-// Lay diem tich luy, giam gia cuar hoi vien
+
+// Lay diem tich luy, giam gia cua hoi vien
     if(isset($_GET['sothe_user_giam'])) {
         $sql = "SELECT * FROM `hoivien` WHERE SOTHE='$sothe_user_giam'";
         $result = mysqli_query($con,$sql);
