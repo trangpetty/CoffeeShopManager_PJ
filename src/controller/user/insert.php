@@ -2,26 +2,17 @@
     include '../../configuration/connect.php';
     extract($_POST);
 
-    if(isset($_POST['manv_user_insert'])) {
-        $giamgia_add = 0;
-        $sql = "SELECT GIATRI FROM `khuyenmai` WHERE MAKM='$makm_user_insert'";
+    $message = '';
+    if(isset($_POST['username_add']) && isset($_POST['password_add'])) {
+        $sql = "SELECT * FROM `account` WHERE username='$username_add'";
         $result = mysqli_query($con, $sql);
-        while ($row = mysqli_fetch_array($result)) {
-            $giamgia_add += $row['GIATRI'];
+        if(mysqli_num_rows($result) > 0){
+            $message = 'Username is valid!';
+        } else {
+            $sql = "INSERT INTO `account` (username, password) VALUES('$username_add','$password_add')";
+            $result = mysqli_query($con, $sql);
+            $message = 'Created new account!';
         }
-        $sql = "SELECT LOAIHV FROM `hoivien` WHERE SOTHE='$sothe_user_insert'";
-        $result = mysqli_query($con, $sql);
-        while ($row = mysqli_fetch_array($result)) {
-            $loaihv = $row['LOAIHV'];
-        }
-        if($loaihv == 'VIP1')   $giamgia_add += 5;
-        elseif ($loaihv == 'VIP2') $giamgia_add += 10;
-        elseif ($loaihv == 'VIP3') $giamgia_add += 15;
-        else $giamgia_add = $giamgia_add;
-        $sql = "INSERT INTO `hoadonbanhang` (MANV,SOTHE,GIAMGIA,MAKM,MABAN,CHUTHICH) VALUES('$manv_user_insert','$sothe_user_insert','$giamgia_add','$makm_user_insert','$maban_user_insert','$chuthich_user_insert')";
-        $result = mysqli_query($con, $sql);
-
-    //        $sql = "UPDATE `hoadonbanhang` SET GIAMGIA='$giamgia_add' WHERE MAHD='$mahd'";
-    //        $result = mysqli_query($con, $sql);
+        echo $message;
     }
 ?>

@@ -27,6 +27,8 @@
 
     <script>
         $(document).ready(function (){
+
+            console.log($("#nhanvien-form_add input[type='radio']:checked").val());
             showData();
             $('#nhanvien-btn_search').click(function (){
                 let search_input = $('#nhanvien-search_input').val();

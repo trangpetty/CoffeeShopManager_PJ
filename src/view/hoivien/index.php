@@ -64,7 +64,7 @@
             let sdt = $('#sdthv_add').val();
             let scccd = $('#scccdhv_add').val();
             let diemtl = $('#diemtl_add').val();
-            let loaihv = $('#loaihv_add').val();
+            // let loaihv = $('#loaihv_add').val();
 
             $.ajax({
                 url: "../../controller/hoivien/insert.php",
@@ -77,7 +77,7 @@
                     sdt: sdt,
                     scccd: scccd,
                     diemtl: diemtl,
-                    loaihv: loaihv
+                    // loaihv: loaihv
                 },
                 success: function (data, status){
                     $('#hoivien-modal_add').modal('hide');
@@ -120,7 +120,7 @@
                         $('#sdthv_edit').val(hoivien.DIENTHOAI);
                         $('#scccdhv_edit').val(hoivien.SOCCCD);
                         $('#diemtl_edit').val(hoivien.DIEMTL);
-                        $('#loaihv_edit').val(hoivien.LOAIHV);
+                        // $('#loaihv_edit').val(hoivien.LOAIHV);
                     });
                 }
             })
@@ -139,7 +139,7 @@
                     sdt_update: $('#sdthv_edit').val(),
                     scccd_update: $('#scccdhv_edit').val(),
                     diemtl_update: $('#diemtl_edit').val(),
-                    loaihv_update: $('#loaihv_edit').val(),
+                    // loaihv_update: $('#loaihv_edit').val(),
                     hoivien_hidden_data: $('#hoivien-hidden-data').val()
                 },
                 success: function (data) {

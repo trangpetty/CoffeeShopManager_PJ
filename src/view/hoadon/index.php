@@ -1,15 +1,10 @@
 <?php
 include '../layout/header.php';
-include 'add.php';
 include 'edit.php';
 ?>
     <div class="container">
         <h1 class="text-center text-brown">HOA DON</h1>
         <div class="d-flex my-2 justify-content-between">
-            <button type="button" class="btn btn-dark bg-brown" data-bs-toggle="modal" data-bs-target="#hoadon-modal_add">
-                <i class="fas fa-circle-plus"></i>
-                Add
-            </button>
             <div class="d-flex">
                 <input type="text" class="form-control" id="hoadon-search_input" autocomplete="off" placeholder="Search">
                 <button class="btn btn-dark bg-brown" id="hoadon-btn_search"><i class="fa fa-search"></i></button>
@@ -27,46 +22,6 @@ include 'edit.php';
     <script>
         $(document).ready(function (){
             showData();
-            $.ajax({
-                url: "../../controller/hoadon/show.php",
-                type: "get",
-                data: {
-                    manvhd: "true"
-                },
-                success: function (data) {
-                    $('#manvhd_add').html(data);
-                }
-            });
-            $.ajax({
-                url: "../../controller/hoadon/show.php",
-                type: "get",
-                data: {
-                    hv: "true"
-                },
-                success: function (data) {
-                    $('#hv_add').html(data);
-                }
-            });
-            $.ajax({
-                url: "../../controller/hoadon/show.php",
-                type: "get",
-                data: {
-                    makmhd: "true"
-                },
-                success: function (data) {
-                    $('#makmhd_add').html(data);
-                }
-            });
-            $.ajax({
-                url: "../../controller/hoadon/show.php",
-                type: "get",
-                data: {
-                    mabanhd: "true"
-                },
-                success: function (data) {
-                    $('#mabanhd_add').html(data);
-                }
-            });
             $('#hoadon-btn_search').click(function (){
                 let search_input = $('#hoadon-search_input').val();
                 if(search_input != ""){
@@ -83,7 +38,7 @@ include 'edit.php';
                     $('#hoadon-search_result').css('display','none');
                 }
             })
-        })
+        });
         function showData(){
             $.ajax({
                 url: "../../controller/hoadon/show.php",
@@ -96,31 +51,6 @@ include 'edit.php';
                 }
             });
         }
-        $('#hoadon-btn_add').on('click', function () {
-            let manv = $('#manvhd_add').val();
-            let sothe = $('#hv_add').val();
-            let makm = $('#makmhd_add').val();
-            let maban = $('#mabanhd_add').val();
-            let chuthich = $('#chuthich_add').val();
-            if(manv != ""){
-                $.ajax({
-                    url: "../../controller/hoadon/insert.php",
-                    type: "post",
-                    data: {
-                        manv: manv,
-                        sothe: sothe,
-                        makm: makm,
-                        maban:maban,
-                        chuthich: chuthich
-                    },
-                    success: function (data, status){
-                        $('#hoadon-modal_add').modal('hide');
-                        $('#hoadon-form_add')[0].reset();
-                        showData()
-                    }
-                });
-            } else $('.error').html('<i class="fa-solid fa-circle-exclamation"></i> Nhap ma nhan vien')
-        });
 
         $(document).on('click','.btn-delete',function() {
             let mahd_del = $(this).attr('id');

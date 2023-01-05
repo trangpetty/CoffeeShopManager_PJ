@@ -11,10 +11,13 @@
         echo json_encode($response);
     } else {
         $response['status'] = 200;
-        $response['message'] = 'Invalidd or data not found';
+        $response['message'] = 'Invalid or data not found';
     }
-
-    if(isset($_POST['mahdcthd_update'])){
+    extract($_POST);
+    if(isset($_POST['mahdcthd_update']) && isset($_POST['maspcthd_update'])){
+        $soluong_update = $_POST['soluong_update'];
+        $dongia_update = $_POST['dongia_update'];
+        echo $soluong_update;
         $sql = "UPDATE `chitiethoadon_banhang` SET SOLUONG='$soluong_update', DONGIA='$dongia_update' WHERE MAHD='$mahdcthd_update' AND MASP='$maspcthd_update'";
         $result = mysqli_query($con,$sql);
     }

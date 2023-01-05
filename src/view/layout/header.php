@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    if($_SESSION['role'] != 1){
+        echo '<script>
+                            window.location.href = "../../view/login/index.php";
+                        </script>';
+        echo $_SESSION['role'];
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +17,6 @@
     <link rel="stylesheet" href="../../../assets/bootstrap-5.2.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/fontawesome-free-6.2.0-web/css/all.min.css">
     <link rel="stylesheet" href="../../../assets/style.css">
-    <link rel="stylesheet" href="../../../assets/moretoggle.min.css">
     <script src="../../../assets/bootstrap-5.2.1-dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../../assets/jquery-3.6.1.min.js"></script>
     <title>AJAX LESSON</title>
@@ -46,11 +55,22 @@
                 </li>
             </ul>
         </div>
-        <a class="btn btn-light" href="../login/index.php">
+        <div class="btn btn-light" id="btn-logout">
             Logout
             <i class="fa-solid fa-right-from-bracket"></i>
-        </a>
+        </div>
     </nav>
     <script>
-
+        $("#btn-logout").click(function (){
+            if(confirm("Are you sure you want to logout?")){
+                $.ajax({
+                    url: "../../controller/login/logout.php",
+                    type: "get",
+                    success: ()=>{
+                        alert("Logout successfully");
+                        window.location.href = "../../view/login/index.php";
+                    }
+                });
+            }
+        })
     </script>

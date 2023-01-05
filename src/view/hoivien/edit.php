@@ -34,15 +34,15 @@
                         <label for="diemtl_edit">Diem tich luy</label>
                         <input type="text" name="diemtl_edit" id="diemtl_edit" class="form-control">
                     </div>
-                    <div class="form-group my-2 d-flex align-items-center">
-                        <label for="loaihv_edit">Loai hoivien</label>
-                        <select name="loaihv_edit" id="loaihv_edit" class="form-select w-50 ms-2">
-                            <option selected>Chon loai hoi vien</option>
-                            <option value="VIP1">VIP1</option>
-                            <option value="VIP2">VIP2</option>
-                            <option value="VIP3">VIP3</option>
-                        </select>
-                    </div>
+<!--                    <div class="form-group my-2 d-flex align-items-center">-->
+<!--                        <label for="loaihv_edit">Loai hoivien</label>-->
+<!--                        <select name="loaihv_edit" id="loaihv_edit" class="form-select w-50 ms-2">-->
+<!--                            <option selected>Chon loai hoi vien</option>-->
+<!--                            <option value="VIP1">VIP1</option>-->
+<!--                            <option value="VIP2">VIP2</option>-->
+<!--                            <option value="VIP3">VIP3</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                 </form>
             </div>
             <div class="modal-footer">

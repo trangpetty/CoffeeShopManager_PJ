@@ -13,7 +13,7 @@
         $response['status'] = 200;
         $response['message'] = 'Invalidd or data not found';
     }
-
+    extract($_POST);
     if(isset($_POST['sochamcong_hidden_data'])){
         $sql = "UPDATE `sochamcong` SET MANV='$manvcc_update', NGAYDILAM='$ngaydilam_update',CALAM='$calam_update' WHERE MANV='$get_manvcc' AND NGAYDILAM='$get_ngaydilam' AND CALAM='$get_calam'";
         $result = mysqli_query($con,$sql);

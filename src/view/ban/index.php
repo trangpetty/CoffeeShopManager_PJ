@@ -25,8 +25,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
+        var trangthai;
         $(document).ready(function (){
             showData();
+            $('[id="trangthai"]').change(function()
+            {
+                if ($(this).is(':checked'))
+                    trangthai = 1;
+                else
+                    trangthai = 0;
+            });
             $('#btn-search_input').click(function (){
                 let search_input = $('#ban-search_input').val();
                 if(search_input != ""){
@@ -113,6 +121,13 @@
         })
 
         $(document).on('click','#ban-btn_edit',function() {
+            // var trangthai_update = 0;
+            // if($('#trangthai').is(":checked") == true) {
+            //     trangthai_update = 1;
+            // }
+            // else {
+            //     trangthai_update = 0;
+            // }
             $.ajax({
                 type: "post",
                 url: '../../controller/ban/update.php',
@@ -120,6 +135,7 @@
                     maban_update: $('#maban_edit').val(),
                     khuvuc_update: $('#khuvuc_edit').val(),
                     phuthu_update: $('#phuthu_edit').val(),
+                    trangthai_update: trangthai,
                     ban_hidden_data: $('#ban-hidden-data').val()
                 },
                 success: function (data) {
@@ -127,15 +143,6 @@
                     showData();
                 }
             })
-            // $.post("./../controller/ban/update.php", {
-            //     maban_update: $('#maban_edit').val(),
-            //     khuvuc_update: $('#khuvuc_edit').val(),
-            //     phuthu_update: $('#phuthu_edit').val(),
-            //     ban_hidden_data: $('#ban-hidden-data').val()
-            // },function (data, status){
-            //     $('#ban-modal_edit').modal('hide');
-            //     showData();
-            // })
         })
 
     </script>

@@ -8,9 +8,9 @@
             </div>
             <div class="modal-body">
                 <form id="cthd-form_edit">
-                    <div class="form-group">
+                    <div class="form-group d-flex align-items-center">
                         <label for="maspcthd_edit">Ma SP</label>
-                        <input name="maspcthd_edit" id="maspcthd_edit" class="form-control">
+                        <input name="maspcthd_edit" id="maspcthd_edit" class="form-control w-50 border-0" readonly>
                     </div>
                     <div class="form-group">
                         <label for="soluong_edit">So luong</label>
@@ -23,7 +23,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-dark" id="cthd-btn_edit">Edit</button>
+                <button type="submit" class="btn btn-dark bg-brown" id="cthd-btn_edit">Edit</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 <input type="hidden" id="cthd-hidden-data">
             </div>

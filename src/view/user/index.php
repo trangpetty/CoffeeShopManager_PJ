@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if($_SESSION['username'] == ''){
+        echo '<script>
+                    window.location.href = "../../view/login/index.php";
+                </script>';
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +23,7 @@
 <style>
 
 </style>
-<button class="btn btn-dark bg-brown float-end m-2">Log out</button>
+<button class="btn btn-dark bg-brown float-end m-2" id="user-btn_logout">Log out</button>
 
     <section style="background-color: #eee;" class="py-5">
         <div class="container bg-white w-75 border py-5 rounded">
@@ -323,24 +331,38 @@
                         chuthich_user_insert: chuthich
                     },
                     success: function (data, status){
+                        for(i = 0; i < list.length; i++){
+                            console.log(list[i].masp + ' ' + list[i].soluong + ' ' + list[i].dongia)
+                            $.ajax({
+                                url: "../../controller/chitiethoadon/insert.php",
+                                type: "post",
+                                data: {
+                                    masp_user: list[i].masp,
+                                    soluong_user: list[i].soluong,
+                                    dongia_user: list[i].dongia
+                                },
+                                success: function (data, status){
+                                }
+                            });
+                        }
                         alert('Da them hoa don mơi')
                         window.location.reload()
                     }
                 });
-                for(i = 0; i < list.length; i++){
-                    $.ajax({
-                        url: "../../controller/chitiethoadon/insert.php",
-                        type: "post",
-                        data: {
-                            masp_user: list[i].masp,
-                            soluong_user: list[i].soluong,
-                            dongia_user: list[i].dongia
-                        },
-                        success: function (data, status){
-                        }
-                    });
-                }
             } else $('.error').html('<i class="fa-solid fa-circle-exclamation"></i> Nhap ma nhan vien')
+        });
+
+        $("#user-btn_logout").click(function() {
+            if(confirm("Are you sure you want to logout?")){
+                $.ajax({
+                    url: "../../controller/login/logout.php",
+                    type: "get",
+                    success: ()=>{
+                        alert("Logout successfully");
+                        window.location.href = "../../view/login/index.php";
+                    }
+                });
+            }
         });
 
 </script>

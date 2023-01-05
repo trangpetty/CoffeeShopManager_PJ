@@ -83,33 +83,49 @@
                 if (username != '' && password != '') {
                     $.ajax({
                         url: "../../controller/login/login.php",
-                        method: "POST",
+                        type: "POST",
                         data: {
                             username: username,
                             password: password
                         },
-                        success: function (data, message) {
-                             if (data == 'success') {
-                                alert('Login successfully!!!')
-                                $.get("../../controller/login/login.php", {username: username}, function (data, status) {
-                                    var account = JSON.parse(data);
-                                    if (account.role == 1) {
-                                        window.location.href = '../hoadon/index.php';
-                                    } else window.location.href = '../user/index.php';
-                                });
-                            } else alert('Invalid User')
-                        }
+                        cache: false,
+                        success: function (data) {
+                                 var n = data.search("Unknown database");
+                                 if (n > 0){
+                                     alert("Unknown database");
+                                 } else {
+                                     var result = JSON.parse(data);
+                                     if(result['message'] == 1) {
+                                         alert("Login successfully!!!");
+                                         window.location.href = result['success'];
+                                     } else if(result['message'] == 0) {
+                                         alert("Username & password error")
+                                         window.location.reload();
+                                     } else ("Invalid")
+                                 }
+                            }
                     })
                 } else {
                     alert('Both Feilds are required!!!')
-                    window.location.reload();
                 }
             })
             $('#account-btn_add').click(function () {
                 let username = $('#username_add').val();
                 let password = $('#password_add').val();
                 if (username != '' && password != '') {
-
+                    $.ajax({
+                        url: "../../controller/user/insert.php",
+                        type: "post",
+                        data: {
+                            username_add: username,
+                            password_add: password
+                        },
+                        success: function (data, status){
+                            $("#account-modal_add").modal("hide");
+                            $("#account-form_add").reset();
+                            alert("Created new account!");
+                        }
+                    });
                 } else $('.error').html('<i class="fa-solid fa-circle-exclamation"></i> Both Feilds are reqquired!!');
             })
         })

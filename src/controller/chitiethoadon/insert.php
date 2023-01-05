@@ -5,9 +5,9 @@
         $sql = "SELECT MAX(MAHD) AS MAXMAHD FROM `hoadonbanhang`";
         $result = mysqli_query($con,$sql);
         while ($row = mysqli_fetch_array($result)) {
-            $mahd = $row['MAXMAHD'] + 1;
+            $mahd = $row['MAXMAHD'];
         }
-        $sql = "INSERT INTO `chitiethoadon_banhang` VALUES('$mahd','$masp_user','$soluong_user','$dongia_user')";
+        $sql = "call insert_chitiethoadon('$mahd','$masp_user','$soluong_user','$dongia_user')";
         $result = mysqli_query($con, $sql);
     }
 ?>
